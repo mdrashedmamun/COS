@@ -15,7 +15,7 @@ interface PlaybookParams {
 }
 
 export default function PlaybookPage() {
-  const params = useParams() as PlaybookParams
+  const params = useParams() as unknown as PlaybookParams
   const router = useRouter()
   const [content, setContent] = useState<string>('')
   const [title, setTitle] = useState<string>('')
@@ -35,10 +35,20 @@ export default function PlaybookPage() {
     // Load playbook content
     const loadPlaybook = async () => {
       try {
-        // Get default vertical from session or use first available
-        const vertical = sessionStorage.getItem('selectedVertical') || 'styling'
-        const playbookContent = await getPlaybookContent(vertical, constraint)
-        const playbookTitle = await getPlaybookTitle(vertical, constraint)
+        // Get diagnosis input from session
+        const storedInput = sessionStorage.getItem('diagnosisInput')
+        const defaultInput = {
+          revenue: 500000,
+          margin: 0.2,
+          cac: 150,
+          ltv: 1500,
+          painPoint: '',
+          vertical: sessionStorage.getItem('selectedVertical') || 'styling',
+        }
+        const input = storedInput ? JSON.parse(storedInput) : defaultInput
+
+        const playbookContent = await getPlaybookContent(constraint as ConstraintType, input)
+        const playbookTitle = await getPlaybookTitle(constraint as ConstraintType, input)
 
         setContent(playbookContent)
         setTitle(playbookTitle)

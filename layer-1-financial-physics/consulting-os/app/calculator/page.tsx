@@ -10,10 +10,11 @@ import { SelectCard } from '@/components/ui/SelectCard'
 import { DiagnosisInput } from '@/lib/utils/constraint-diagnosis'
 import { getAnalytics } from '@/lib/utils/analytics'
 
-type Step = 'vertical' | 'revenue' | 'margin' | 'cac' | 'painpoint'
+type Step = 'vertical' | 'positioning' | 'revenue' | 'margin' | 'cac' | 'painpoint'
 
-const STEPS: { id: Step; label: string }[] = [
+const STEPS: { id: Step; label: string; optional?: boolean }[] = [
   { id: 'vertical', label: 'Your Business' },
+  { id: 'positioning', label: 'Your Customers', optional: true },
   { id: 'revenue', label: 'Revenue' },
   { id: 'margin', label: 'Margins' },
   { id: 'cac', label: 'CAC' },
@@ -40,6 +41,112 @@ const PAIN_POINTS = [
   { id: 'service_quality', emoji: '⭐', title: 'Quality is inconsistent' },
 ]
 
+// Positioning context questions - 3 core questions based on Alex Hormozi's framework
+const CUSTOMER_TYPES = [
+  {
+    id: 'b2b_smb',
+    emoji: '🏢',
+    title: 'Small Businesses',
+    description: 'Local businesses, startups, < 50 employees'
+  },
+  {
+    id: 'b2b_enterprise',
+    emoji: '🏛️',
+    title: 'Enterprise/Corporate',
+    description: 'Large companies, complex sales, > 500 employees'
+  },
+  {
+    id: 'b2c_mass',
+    emoji: '👥',
+    title: 'Mass Consumer',
+    description: 'General public, broad appeal, high volume'
+  },
+  {
+    id: 'b2c_affluent',
+    emoji: '💎',
+    title: 'Affluent Consumers',
+    description: 'High-income individuals, premium pricing'
+  },
+  {
+    id: 'b2c_niche',
+    emoji: '🎯',
+    title: 'Niche Community',
+    description: 'Specific demographic, shared interest/identity'
+  },
+]
+
+const CUSTOMER_TRIGGERS = [
+  {
+    id: 'life_event',
+    emoji: '🎯',
+    title: 'Major life event',
+    description: 'New job, move, baby, marriage, divorce - significant change'
+  },
+  {
+    id: 'urgent_problem',
+    emoji: '🚨',
+    title: 'Urgent problem / Emergency',
+    description: 'Something broke, deadline approaching, immediate need'
+  },
+  {
+    id: 'planned_purchase',
+    emoji: '📅',
+    title: 'Planned / Seasonal purchase',
+    description: 'Anticipated need, scheduled event, recurring cycle'
+  },
+  {
+    id: 'ongoing_pain',
+    emoji: '💢',
+    title: 'Ongoing pain finally unbearable',
+    description: 'Problem existed for a while, finally hit breaking point'
+  },
+  {
+    id: 'aspiration',
+    emoji: '✨',
+    title: 'Aspiration / Status / Transformation',
+    description: 'Want to improve image, achieve goal, transform identity'
+  },
+]
+
+const ACQUISITION_CHANNELS = [
+  {
+    id: 'referrals',
+    emoji: '🤝',
+    title: 'Referrals / Word of mouth',
+    description: 'Existing customers send you new business'
+  },
+  {
+    id: 'paid_ads',
+    emoji: '💰',
+    title: 'Paid advertising',
+    description: 'Google Ads, Facebook, Instagram, etc.'
+  },
+  {
+    id: 'organic',
+    emoji: '🌱',
+    title: 'Organic / SEO / Content',
+    description: 'Google search, blog, social media posts'
+  },
+  {
+    id: 'partnerships',
+    emoji: '🔗',
+    title: 'Partnerships / Affiliates',
+    description: 'Other businesses refer you for commission/fee'
+  },
+  {
+    id: 'outbound',
+    emoji: '📞',
+    title: 'Outbound sales / Cold outreach',
+    description: 'You reach out to prospects directly'
+  },
+  {
+    id: 'local',
+    emoji: '📍',
+    title: 'Walk-ins / Local presence',
+    description: 'Physical location, foot traffic, local reputation'
+  },
+]
+
 export default function CalculatorPage() {
   const router = useRouter()
   const [currentStep, setCurrentStep] = useState<Step>('vertical')
@@ -59,6 +166,10 @@ export default function CalculatorPage() {
     ltv: 1500,
     painPoint: '',
     vertical: '',
+    // Positioning fields
+    customerType: undefined,
+    customerTrigger: undefined,
+    acquisitionChannel: undefined,
   })
 
   // Smooth transitions between steps
@@ -98,6 +209,11 @@ export default function CalculatorPage() {
         ltv: formData.ltv,
         painPoint: formData.painPoint,
         vertical: formData.vertical,
+        // Track positioning context
+        hasPositioningContext: !!(formData.customerType && formData.customerTrigger && formData.acquisitionChannel),
+        customerType: formData.customerType,
+        customerTrigger: formData.customerTrigger,
+        acquisitionChannel: formData.acquisitionChannel,
       })
 
       router.push('/diagnosis')
@@ -108,6 +224,9 @@ export default function CalculatorPage() {
     switch (currentStep) {
       case 'vertical':
         return !!formData.vertical
+      case 'positioning':
+        // Positioning is optional - can always proceed
+        return true
       case 'revenue':
         return formData.revenue && formData.revenue > 0
       case 'margin':
@@ -146,7 +265,7 @@ export default function CalculatorPage() {
           steps={STEPS.map(s => ({
             id: s.id,
             label: s.label,
-            completed: isCompleted(s as Step),
+            completed: isCompleted(s.id),
           }))}
           currentStep={currentStep}
         />
@@ -177,6 +296,105 @@ export default function CalculatorPage() {
                         onClick={() => setFormData({ ...formData, vertical: vertical.id })}
                       />
                     ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Step 1.5: Positioning (Optional) */}
+              {currentStep === 'positioning' && (
+                <div>
+                  <div className="mb-6 p-4 bg-gradient-to-r from-sage-50 to-warm-50 border-l-4 border-warm-400 rounded-lg">
+                    <div className="flex items-start gap-3">
+                      <div className="text-2xl">🎯</div>
+                      <div>
+                        <h3 className="font-semibold text-warm-900 mb-1">
+                          Want a more accurate diagnosis?
+                        </h3>
+                        <p className="text-sm text-warm-700 mb-3">
+                          Answer 3 quick questions about your customer. Makes results 3x more specific to you.
+                        </p>
+                        <div className="flex items-center gap-4 text-xs text-warm-600">
+                          <span>⏱️ Takes 90 seconds</span>
+                          <span>🎯 Much more personalized insights</span>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Question 1: Customer Type */}
+                  <div className="mb-8">
+                    <h2 className="text-xl font-serif font-semibold text-warm-900 mb-2">
+                      Who is your ideal customer?
+                    </h2>
+                    <p className="text-warm-600 mb-4 text-sm">
+                      Who gets the most value from your service?
+                    </p>
+                    <div className="space-y-2">
+                      {CUSTOMER_TYPES.map(type => (
+                        <SelectCard
+                          key={type.id}
+                          emoji={type.emoji}
+                          title={type.title}
+                          description={type.description}
+                          selected={formData.customerType === type.id}
+                          onClick={() => setFormData({ ...formData, customerType: type.id as DiagnosisInput['customerType'] })}
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Question 2: Trigger - When do they buy? */}
+                  <div className="mb-8">
+                    <h2 className="text-xl font-serif font-semibold text-warm-900 mb-2">
+                      When do they decide to buy from you?
+                    </h2>
+                    <p className="text-warm-600 mb-4 text-sm">
+                      What moment or situation causes them to seek you out?
+                    </p>
+                    <div className="space-y-2">
+                      {CUSTOMER_TRIGGERS.map(trigger => (
+                        <SelectCard
+                          key={trigger.id}
+                          emoji={trigger.emoji}
+                          title={trigger.title}
+                          description={trigger.description}
+                          selected={formData.customerTrigger === trigger.id}
+                          onClick={() => setFormData({ ...formData, customerTrigger: trigger.id as DiagnosisInput['customerTrigger'] })}
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Question 3: Channel - Where do customers come from? */}
+                  <div className="mb-8">
+                    <h2 className="text-xl font-serif font-semibold text-warm-900 mb-2">
+                      Where do most of your customers come from?
+                    </h2>
+                    <p className="text-warm-600 mb-4 text-sm">
+                      What's your primary customer acquisition channel?
+                    </p>
+                    <div className="space-y-2">
+                      {ACQUISITION_CHANNELS.map(channel => (
+                        <SelectCard
+                          key={channel.id}
+                          emoji={channel.emoji}
+                          title={channel.title}
+                          description={channel.description}
+                          selected={formData.acquisitionChannel === channel.id}
+                          onClick={() => setFormData({ ...formData, acquisitionChannel: channel.id as DiagnosisInput['acquisitionChannel'] })}
+                        />
+                      ))}
+                    </div>
+                  </div>
+
+                  {/* Skip Option */}
+                  <div className="mt-8 p-4 bg-warm-50 border border-warm-200 rounded-lg text-center">
+                    <p className="text-sm text-warm-700 mb-3">
+                      Don't have time right now?
+                    </p>
+                    <p className="text-xs text-warm-600">
+                      (You can still proceed to the basic diagnosis—skip positioning if you want to move faster)
+                    </p>
                   </div>
                 </div>
               )}

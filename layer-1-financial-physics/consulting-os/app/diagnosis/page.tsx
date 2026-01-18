@@ -6,7 +6,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
 import { ConstraintCard } from '@/components/ui/ConstraintCard'
-import { diagnoseConstraint, DiagnosisInput, ConstraintType, getConstraintDetails } from '@/lib/utils/constraint-diagnosis'
+import { diagnoseConstraintWithAnalysis, DiagnosisInput, ConstraintType, EnhancedConstraintDiagnosis, getConstraintDetails } from '@/lib/utils/constraint-diagnosis'
 import { getAnalytics } from '@/lib/utils/analytics'
 
 type DiagnosisState = 'loading' | 'revealing' | 'complete'
@@ -21,11 +21,21 @@ const constraintColors: Record<ConstraintType, { bg: string; text: string; accen
   pricing: { bg: 'pricing-50', text: 'pricing-900', accent: 'pricing-600' },
 }
 
+const constraintDescriptions: Record<ConstraintType, { title: string; emoji: string }> = {
+  demand: { title: 'Demand', emoji: '📈' },
+  delivery: { title: 'Delivery', emoji: '⚙️' },
+  efficiency: { title: 'Efficiency', emoji: '📊' },
+  quality: { title: 'Quality', emoji: '⭐' },
+  capital: { title: 'Capital', emoji: '💰' },
+  retention: { title: 'Retention', emoji: '🔄' },
+  pricing: { title: 'Pricing', emoji: '💎' },
+}
+
 export default function DiagnosisPage() {
   const router = useRouter()
   const [state, setState] = useState<DiagnosisState>('loading')
   const [input, setInput] = useState<DiagnosisInput | null>(null)
-  const [diagnosis, setDiagnosis] = useState<any>(null)
+  const [diagnosis, setDiagnosis] = useState<EnhancedConstraintDiagnosis | null>(null)
   const [error, setError] = useState<string | null>(null)
   const analyticsRef = useRef(getAnalytics())
 
@@ -44,7 +54,7 @@ export default function DiagnosisPage() {
 
       // Simulate analysis delay for dramatic effect
       setTimeout(() => {
-        const result = diagnoseConstraint(parsedInput)
+        const result = diagnoseConstraintWithAnalysis(parsedInput)
         setDiagnosis(result)
         setState('revealing')
 
@@ -52,6 +62,7 @@ export default function DiagnosisPage() {
         analyticsRef.current.track('diagnosis_viewed', {
           constraint: result.primaryConstraint,
           confidence: result.confidence,
+          metaAnalysis: true,
         })
 
         // Transition to complete state after reveal animation
@@ -157,6 +168,61 @@ export default function DiagnosisPage() {
           </Card>
         </div>
 
+        {/* Positioning Context (if provided) */}
+        {diagnosis.positioningContext && (
+          <div
+            className={`mb-12 transition-all duration-700 delay-150 ${
+              state === 'complete' ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+            }`}
+          >
+            <Card variant="subtle" className="p-6 border-l-4 border-sage-400">
+              <div className="flex items-start gap-3 mb-4">
+                <span className="text-2xl">🎯</span>
+                <h3 className="text-lg font-semibold text-warm-900">Your Positioning Context</h3>
+              </div>
+              <div className="grid grid-cols-3 gap-4 text-sm">
+                {diagnosis.positioningContext.customerType && (
+                  <div>
+                    <p className="text-warm-600 mb-1 font-medium">Target Customer</p>
+                    <p className="text-warm-900">
+                      {diagnosis.positioningContext.customerType === 'b2b_smb' && '🏢 Small Businesses'}
+                      {diagnosis.positioningContext.customerType === 'b2b_enterprise' && '🏛️ Enterprise'}
+                      {diagnosis.positioningContext.customerType === 'b2c_mass' && '👥 Mass Consumer'}
+                      {diagnosis.positioningContext.customerType === 'b2c_affluent' && '💎 Affluent'}
+                      {diagnosis.positioningContext.customerType === 'b2c_niche' && '🎯 Niche'}
+                    </p>
+                  </div>
+                )}
+                {diagnosis.positioningContext.customerTrigger && (
+                  <div>
+                    <p className="text-warm-600 mb-1 font-medium">Buying Trigger</p>
+                    <p className="text-warm-900">
+                      {diagnosis.positioningContext.customerTrigger === 'life_event' && '🎯 Life Event'}
+                      {diagnosis.positioningContext.customerTrigger === 'urgent_problem' && '🚨 Urgent Problem'}
+                      {diagnosis.positioningContext.customerTrigger === 'planned_purchase' && '📅 Planned'}
+                      {diagnosis.positioningContext.customerTrigger === 'ongoing_pain' && '💢 Ongoing Pain'}
+                      {diagnosis.positioningContext.customerTrigger === 'aspiration' && '✨ Aspiration'}
+                    </p>
+                  </div>
+                )}
+                {diagnosis.positioningContext.acquisitionChannel && (
+                  <div>
+                    <p className="text-warm-600 mb-1 font-medium">Main Channel</p>
+                    <p className="text-warm-900">
+                      {diagnosis.positioningContext.acquisitionChannel === 'referrals' && '🤝 Referrals'}
+                      {diagnosis.positioningContext.acquisitionChannel === 'paid_ads' && '💰 Paid Ads'}
+                      {diagnosis.positioningContext.acquisitionChannel === 'organic' && '🌱 Organic'}
+                      {diagnosis.positioningContext.acquisitionChannel === 'partnerships' && '🔗 Partnerships'}
+                      {diagnosis.positioningContext.acquisitionChannel === 'outbound' && '📞 Outbound'}
+                      {diagnosis.positioningContext.acquisitionChannel === 'local' && '📍 Local'}
+                    </p>
+                  </div>
+                )}
+              </div>
+            </Card>
+          </div>
+        )}
+
         {/* Explanation */}
         <div
           className={`mb-12 transition-all duration-700 delay-200 ${
@@ -177,6 +243,139 @@ export default function DiagnosisPage() {
             </div>
           </Card>
         </div>
+
+        {/* Root Cause Analysis */}
+        {diagnosis.metaAnalysis && (
+          <div
+            className={`mb-12 transition-all duration-700 delay-300 ${
+              state === 'complete' ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+            }`}
+          >
+            <Card variant="subtle" className="p-8 border-l-4 border-warm-400">
+              <h3 className="font-semibold text-warm-900 mb-3 text-lg">🎯 What's Really Happening</h3>
+              <p className="text-warm-800 leading-relaxed">
+                {diagnosis.metaAnalysis.rootCause}
+              </p>
+            </Card>
+          </div>
+        )}
+
+        {/* Cascading Effects */}
+        {diagnosis.metaAnalysis?.cascadingEffects && (
+          <div
+            className={`mb-12 transition-all duration-700 delay-[400ms] ${
+              state === 'complete' ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+            }`}
+          >
+            <Card variant="subtle" className="p-8">
+              <h3 className="font-semibold text-warm-900 mb-4 text-lg">🔗 How This Affects Everything</h3>
+              <div className="space-y-3">
+                {diagnosis.metaAnalysis.cascadingEffects.map((effect: string, idx: number) => (
+                  <div key={idx} className="flex gap-3">
+                    <div className="text-warm-400 font-bold mt-0.5 flex-shrink-0">✗</div>
+                    <p className="text-warm-800">{effect}</p>
+                  </div>
+                ))}
+              </div>
+            </Card>
+          </div>
+        )}
+
+        {/* Confidence & Alternatives */}
+        {diagnosis.alternativeConstraints && diagnosis.alternativeConstraints.length > 0 && (
+          <div
+            className={`mb-12 transition-all duration-700 delay-[500ms] ${
+              state === 'complete' ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+            }`}
+          >
+            <Card variant="subtle" className="p-8">
+              <h3 className="font-semibold text-warm-900 mb-4 text-lg">📊 Diagnosis Confidence</h3>
+              <div className="mb-6">
+                <div className="flex items-center justify-between mb-2">
+                  <p className="text-sm font-medium text-warm-700">Confidence Level</p>
+                  <p className="text-lg font-bold text-warm-900">{diagnosis.confidence.toFixed(0)}%</p>
+                </div>
+                <div className="w-full bg-warm-200 rounded-full h-2">
+                  <div
+                    className="bg-sage-500 h-2 rounded-full transition-all duration-700"
+                    style={{ width: `${diagnosis.confidence}%` }}
+                  />
+                </div>
+              </div>
+
+              <div className="mt-6 space-y-3">
+                <p className="text-sm font-medium text-warm-700 mb-3">Alternative possibilities:</p>
+                {diagnosis.alternativeConstraints.map((alt, idx) => (
+                  <div key={idx} className="text-sm p-3 bg-warm-50 rounded-lg">
+                    <div className="flex justify-between mb-1">
+                      <p className="font-medium text-warm-900">{idx + 1}. {constraintDescriptions[alt.constraint as ConstraintType]?.title || alt.constraint}</p>
+                      <p className="text-warm-600">{alt.probability}%</p>
+                    </div>
+                    <p className="text-warm-700 text-xs">{alt.reasoning}</p>
+                  </div>
+                ))}
+              </div>
+            </Card>
+          </div>
+        )}
+
+        {/* What Success Looks Like */}
+        {diagnosis.metaAnalysis?.successMetrics && (
+          <div
+            className={`mb-12 transition-all duration-700 delay-[600ms] ${
+              state === 'complete' ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+            }`}
+          >
+            <Card variant="subtle" className="p-8">
+              <h3 className="font-semibold text-warm-900 mb-6 text-lg">🎯 If You Fix This</h3>
+              <div className="space-y-4">
+                {diagnosis.metaAnalysis.successMetrics.slice(0, 3).map((metric, idx) => (
+                  <div key={idx} className="flex gap-4 pb-4 border-b border-warm-200 last:border-b-0">
+                    <div className="flex-shrink-0">
+                      <div className="w-8 h-8 rounded-full bg-sage-100 flex items-center justify-center text-sm font-bold text-sage-600">
+                        {idx + 1}
+                      </div>
+                    </div>
+                    <div className="flex-1">
+                      <p className="font-medium text-warm-900 mb-1">{metric.metric}</p>
+                      <div className="flex justify-between text-sm mb-2">
+                        <p className="text-warm-600">Current: <span className="font-semibold text-warm-900">{metric.current}</span></p>
+                        <p className="text-warm-600">Target: <span className="font-semibold text-sage-600">{metric.target}</span></p>
+                      </div>
+                      <p className="text-xs text-warm-500">Timeframe: {metric.timeframe}</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+              <p className="text-sm text-warm-700 mt-6 pt-6 border-t border-warm-200">
+                <strong>Potential impact:</strong> {diagnosis.metaAnalysis.potentialRevenueLift}
+              </p>
+            </Card>
+          </div>
+        )}
+
+        {/* Next Steps */}
+        {diagnosis.nextSteps && (
+          <div
+            className={`mb-12 transition-all duration-700 delay-[700ms] ${
+              state === 'complete' ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
+            }`}
+          >
+            <Card className="p-8 bg-sage-50">
+              <h3 className="font-semibold text-warm-900 mb-6 text-lg">📋 Your 90-Day Roadmap</h3>
+              <div className="space-y-3">
+                {diagnosis.nextSteps.map((step: string, idx: number) => (
+                  <div key={idx} className="flex gap-4">
+                    <div className="flex-shrink-0 w-6 h-6 rounded-full bg-sage-600 flex items-center justify-center text-sm font-bold text-white">
+                      {idx + 1}
+                    </div>
+                    <p className="text-warm-800 leading-relaxed flex-1 mt-0.5">{step}</p>
+                  </div>
+                ))}
+              </div>
+            </Card>
+          </div>
+        )}
 
         {/* Reasoning */}
         {diagnosis.reasoning.length > 0 && (

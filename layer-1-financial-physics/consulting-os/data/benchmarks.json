@@ -1,0 +1,178 @@
+{
+  "waste-management": {
+    "healthyMargin": {
+      "min": 0.10,
+      "strong": 0.20,
+      "description": "Thin margins typical; operational leverage is key"
+    },
+    "typicalCAC": {
+      "low": 30,
+      "high": 150,
+      "description": "Low CAC due to geographic route-based model"
+    },
+    "typicalLTV": {
+      "low": 800,
+      "high": 2000,
+      "description": "Recurring subscription model drives LTV"
+    },
+    "revenueRange": {
+      "early": 300000,
+      "growth": 1000000,
+      "scale": 5000000
+    }
+  },
+  "personal-styling": {
+    "healthyMargin": {
+      "min": 0.30,
+      "strong": 0.50,
+      "description": "High-margin service model; low COGS"
+    },
+    "typicalCAC": {
+      "low": 300,
+      "high": 800,
+      "description": "Premium positioning supports higher CAC"
+    },
+    "typicalLTV": {
+      "low": 5000,
+      "high": 15000,
+      "description": "Long client relationships with recurring revenue"
+    },
+    "revenueRange": {
+      "early": 150000,
+      "growth": 500000,
+      "scale": 2000000
+    }
+  },
+  "health-fitness": {
+    "healthyMargin": {
+      "min": 0.15,
+      "strong": 0.30,
+      "description": "Moderate margins; labor-intensive at scale"
+    },
+    "typicalCAC": {
+      "low": 400,
+      "high": 1000,
+      "description": "Professional services positioning"
+    },
+    "typicalLTV": {
+      "low": 2000,
+      "high": 5000,
+      "description": "Recurring appointments with seasonal variation"
+    },
+    "revenueRange": {
+      "early": 500000,
+      "growth": 2000000,
+      "scale": 10000000
+    }
+  },
+  "hybrid-retail-service": {
+    "healthyMargin": {
+      "min": 0.08,
+      "strong": 0.15,
+      "description": "Retail component compresses margins; opportunity in service mix"
+    },
+    "typicalCAC": {
+      "low": 50,
+      "high": 300,
+      "description": "Varies by customer segment (retail vs B2B)"
+    },
+    "typicalLTV": {
+      "low": 500,
+      "high": 3000,
+      "description": "Mix of one-time and repeat customers"
+    },
+    "revenueRange": {
+      "early": 500000,
+      "growth": 1500000,
+      "scale": 5000000
+    }
+  },
+  "hospitality-beverage": {
+    "healthyMargin": {
+      "min": 0.08,
+      "strong": 0.18,
+      "description": "Project-based consulting; margin varies by engagement type"
+    },
+    "typicalCAC": {
+      "low": 500,
+      "high": 2000,
+      "description": "High-touch sales; relationship-driven"
+    },
+    "typicalLTV": {
+      "low": 5000,
+      "high": 20000,
+      "description": "Multi-year consulting engagements possible"
+    },
+    "revenueRange": {
+      "early": 300000,
+      "growth": 1000000,
+      "scale": 3000000
+    }
+  },
+  "professional-services": {
+    "healthyMargin": {
+      "min": 0.15,
+      "strong": 0.40,
+      "description": "High potential with productization; low without"
+    },
+    "typicalCAC": {
+      "low": 1000,
+      "high": 5000,
+      "description": "Specialized niche positioning; high CAC typical"
+    },
+    "typicalLTV": {
+      "low": 10000,
+      "high": 50000,
+      "description": "Long-term retainer relationships; highly variable"
+    },
+    "revenueRange": {
+      "early": 200000,
+      "growth": 800000,
+      "scale": 2000000
+    }
+  },
+  "beauty-services": {
+    "healthyMargin": {
+      "min": 0.20,
+      "strong": 0.35,
+      "description": "Strong margins; labor-intensive scaling"
+    },
+    "typicalCAC": {
+      "low": 100,
+      "high": 400,
+      "description": "Local market positioning; word-of-mouth driven"
+    },
+    "typicalLTV": {
+      "low": 2000,
+      "high": 8000,
+      "description": "Recurring appointment model with high retention"
+    },
+    "revenueRange": {
+      "early": 400000,
+      "growth": 1500000,
+      "scale": 5000000
+    }
+  },
+  "food-service": {
+    "healthyMargin": {
+      "min": 0.08,
+      "strong": 0.20,
+      "description": "Thin margins typical; 18-22% is strong for restaurants"
+    },
+    "typicalCAC": {
+      "low": 25,
+      "high": 150,
+      "description": "Low CAC in high-traffic locations; varies by channel"
+    },
+    "typicalLTV": {
+      "low": 500,
+      "high": 3000,
+      "description": "Varies by customer type (dine-in vs delivery)"
+    },
+    "revenueRange": {
+      "early": 500000,
+      "growth": 2000000,
+      "scale": 10000000
+    }
+  }
+}

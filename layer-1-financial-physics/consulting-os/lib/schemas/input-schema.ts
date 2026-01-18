@@ -149,16 +149,17 @@ export const ExampleInputsByVertical: Record<string, CalculatorInput> = {
       customerLifetimeValue: 1300,
       ltvToCacRatio: 19.4,
       closeRate: 0.33,
+      monthlyChurnRate: 0.02,
     },
     growth: {
       totalCustomers: 300,
-      monthlyChurnRate: 0.02,
     },
     constraints: {
       primaryConstraint: 'efficiency',
       constraints: ['Negative net margin', 'Route inefficiency', 'Asset utilization'],
       constraintSeverity: 'high',
     },
+    timestamp: new Date(),
   },
 
   'personal-styling': {
@@ -195,6 +196,7 @@ export const ExampleInputsByVertical: Record<string, CalculatorInput> = {
       constraints: ['Lead volume limited', 'Lead magnet ineffective', 'Conversion optimization needed'],
       constraintSeverity: 'medium',
     },
+    timestamp: new Date(),
   },
 
   'health-fitness': {
@@ -228,6 +230,7 @@ export const ExampleInputsByVertical: Record<string, CalculatorInput> = {
       constraints: ['Lead flow insufficient', 'High close rate signals pricing opportunity'],
       constraintSeverity: 'medium',
     },
+    timestamp: new Date(),
   },
 
   'beauty-services': {
@@ -255,6 +258,7 @@ export const ExampleInputsByVertical: Record<string, CalculatorInput> = {
       constraints: ['Technician capacity limited', 'Quality consistency across locations', 'Staff retention'],
       constraintSeverity: 'high',
     },
+    timestamp: new Date(),
   },
 
   'food-service': {
@@ -281,6 +285,7 @@ export const ExampleInputsByVertical: Record<string, CalculatorInput> = {
       constraints: ['Thin margins typical', 'Channel mix optimization needed', 'Labor cost pressure'],
       constraintSeverity: 'medium',
     },
+    timestamp: new Date(),
   },
 };
 
