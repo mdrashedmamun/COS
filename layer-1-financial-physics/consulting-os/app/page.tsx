@@ -10,6 +10,7 @@
 'use client';
 
 import { useState, useEffect } from 'react';
+import Link from 'next/link';
 import verticalConfig from '../data/verticals.json';
 import { getExampleInputForVertical } from '../lib/schemas/input-schema';
 import type { VerticalMetadata } from '../lib/schemas/verticals-schema';
@@ -239,11 +240,11 @@ export default function Home() {
 
             {/* Action Buttons */}
             <div className="flex gap-4 pt-6 border-t">
-              <button className="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-semibold">
-                View Full Playbook
-              </button>
+              <Link href="/calculator" className="px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-semibold inline-block">
+                Start Constraint Analysis
+              </Link>
               <button className="px-6 py-2 bg-gray-200 text-gray-900 rounded-lg hover:bg-gray-300 font-semibold">
-                Analyze This Business
+                Learn More
               </button>
             </div>
           </section>
@@ -253,12 +254,15 @@ export default function Home() {
         {!selectedVertical && (
           <section className="bg-indigo-50 rounded-lg p-8 border border-indigo-200">
             <h3 className="text-xl font-bold text-gray-900 mb-3">📊 How It Works</h3>
-            <ul className="space-y-2 text-gray-700">
+            <ul className="space-y-2 text-gray-700 mb-6">
               <li>✓ <strong>Select your vertical</strong> from featured service business types</li>
               <li>✓ <strong>View real case study data</strong> from similar businesses</li>
               <li>✓ <strong>Understand your constraint</strong> using Growth Physics formulas</li>
               <li>✓ <strong>Follow the playbook</strong> with specific growth recommendations</li>
             </ul>
+            <Link href="/calculator" className="inline-block px-6 py-2 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 font-semibold">
+              Get Started →
+            </Link>
           </section>
         )}
       </main>
