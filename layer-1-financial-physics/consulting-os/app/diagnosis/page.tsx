@@ -9,6 +9,7 @@ import { ConstraintCard } from '@/components/ui/ConstraintCard'
 import { DiagnosisCardSkeleton } from '@/components/ui/SkeletonLoader'
 import { diagnoseConstraintWithAnalysis, DiagnosisInput, ConstraintType, EnhancedConstraintDiagnosis, getConstraintDetails } from '@/lib/utils/constraint-diagnosis'
 import { getAnalytics } from '@/lib/utils/analytics'
+import { getUser } from '@/lib/supabase/auth'
 
 type DiagnosisState = 'loading' | 'revealing' | 'complete'
 
@@ -38,6 +39,9 @@ export default function DiagnosisPage() {
   const [input, setInput] = useState<DiagnosisInput | null>(null)
   const [diagnosis, setDiagnosis] = useState<EnhancedConstraintDiagnosis | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [user, setUser] = useState<any>(null)
+  const [saving, setSaving] = useState(false)
+  const [saved, setSaved] = useState(false)
   const analyticsRef = useRef(getAnalytics())
 
   useEffect(() => {
@@ -74,6 +78,61 @@ export default function DiagnosisPage() {
       setTimeout(() => router.push('/calculator'), 2000)
     }
   }, [router])
+
+  // Check if user is logged in
+  useEffect(() => {
+    const checkUser = async () => {
+      const currentUser = await getUser()
+      setUser(currentUser)
+    }
+    checkUser()
+  }, [])
+
+  // Save diagnosis to Supabase
+  const handleSaveDiagnosis = async () => {
+    if (!user || !diagnosis || !input) return
+
+    setSaving(true)
+    try {
+      const response = await fetch('/api/diagnoses', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          primaryConstraint: diagnosis.primaryConstraint,
+          confidence: diagnosis.confidence,
+          explanation: diagnosis.explanation,
+          metrics: {
+            revenue: input.revenue,
+            margin: input.margin,
+            cac: input.cac,
+            ltv: input.ltv,
+            painPoint: input.painPoint,
+          },
+          vertical: input.vertical,
+          positioningContext: input.customerType ? {
+            customerType: input.customerType,
+            customerTrigger: input.customerTrigger,
+            acquisitionChannel: input.acquisitionChannel,
+          } : undefined,
+          metaAnalysis: diagnosis.metaAnalysis,
+          reasoning: diagnosis.reasoning,
+          alternativeConstraints: diagnosis.alternativeConstraints,
+          nextSteps: diagnosis.nextSteps,
+        }),
+      })
+
+      if (response.ok) {
+        setSaved(true)
+        analyticsRef.current.track('diagnosis_saved', {
+          constraint: diagnosis.primaryConstraint,
+        })
+      }
+    } catch (err) {
+      console.error('Error saving diagnosis:', err)
+    } finally {
+      setSaving(false)
+    }
+  }
 
   if (error) {
     return (
@@ -428,15 +487,52 @@ export default function DiagnosisPage() {
               See the specific playbook for your constraint with a 90-day roadmap.
             </p>
 
-            <Link href={`/playbook/${diagnosis.primaryConstraint}`}>
-              <Button variant="primary" size="lg" className="min-w-64">
-                See Your Playbook →
-              </Button>
-            </Link>
+            <div className="space-y-2">
+              <Link href={`/playbook/${diagnosis.primaryConstraint}`}>
+                <Button variant="primary" size="lg" className="w-full sm:min-w-64">
+                  See Your Playbook →
+                </Button>
+              </Link>
 
-            <div className="pt-4">
+              {user && !saved && (
+                <Button
+                  variant="secondary"
+                  size="lg"
+                  onClick={handleSaveDiagnosis}
+                  isLoading={saving}
+                  disabled={saving}
+                  className="w-full sm:min-w-64"
+                >
+                  {saving ? 'Saving...' : '💾 Save to Dashboard'}
+                </Button>
+              )}
+
+              {saved && (
+                <div className="text-green-600 text-sm font-medium">
+                  ✓ Saved! View it on your dashboard.
+                </div>
+              )}
+            </div>
+
+            <div className="pt-4 space-y-2">
+              {user && (
+                <Link href="/dashboard">
+                  <Button variant="secondary" className="w-full">
+                    View Dashboard
+                  </Button>
+                </Link>
+              )}
+              {!user && (
+                <Link href="/login">
+                  <Button variant="secondary" className="w-full">
+                    Sign In to Save
+                  </Button>
+                </Link>
+              )}
               <Link href="/calculator">
-                <Button variant="secondary">Start Over</Button>
+                <Button variant="ghost" className="w-full">
+                  Start Over
+                </Button>
               </Link>
             </div>
           </div>

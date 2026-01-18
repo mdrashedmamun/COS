@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/Input'
 import { Card } from '@/components/ui/Card'
 import { StepIndicator } from '@/components/ui/StepIndicator'
 import { SelectCard } from '@/components/ui/SelectCard'
+import { MetricCalculator } from '@/components/ui/MetricCalculator'
 import { DiagnosisInput } from '@/lib/utils/constraint-diagnosis'
 import { getAnalytics } from '@/lib/utils/analytics'
 
@@ -465,6 +466,13 @@ export default function CalculatorPage() {
                           {formData.margin ? `${(formData.margin * 100).toFixed(0)}%` : '—'}
                         </div>
                       </div>
+
+                      <MetricCalculator
+                        metricType="margin"
+                        revenue={formData.revenue}
+                        onCalculate={(value) => setFormData({ ...formData, margin: value })}
+                        onTrack={(event, data) => analyticsRef.current.track(event, data)}
+                      />
                     </div>
 
                     <div className="bg-warm-50 border border-warm-200 rounded-lg p-4">
@@ -498,32 +506,51 @@ export default function CalculatorPage() {
                     This is your customer acquisition cost (CAC)
                   </p>
                   <div className="space-y-4">
-                    <Input
-                      type="number"
-                      label="Customer Acquisition Cost (CAC)"
-                      value={formData.cac || ''}
-                      onChange={e =>
-                        setFormData({
-                          ...formData,
-                          cac: parseInt(e.target.value) || 0,
-                        })
-                      }
-                      placeholder="e.g., 150"
-                      helper="Include marketing, sales time, and onboarding"
-                    />
-                    <Input
-                      type="number"
-                      label="Customer Lifetime Value (LTV)"
-                      value={formData.ltv || ''}
-                      onChange={e =>
-                        setFormData({
-                          ...formData,
-                          ltv: parseInt(e.target.value) || 0,
-                        })
-                      }
-                      placeholder="e.g., 1500"
-                      helper="Total profit from one customer over their lifetime"
-                    />
+                    <div>
+                      <Input
+                        type="number"
+                        label="Customer Acquisition Cost (CAC)"
+                        value={formData.cac || ''}
+                        onChange={e =>
+                          setFormData({
+                            ...formData,
+                            cac: parseInt(e.target.value) || 0,
+                          })
+                        }
+                        placeholder="e.g., 150"
+                        helper="Include marketing, sales time, and onboarding"
+                      />
+
+                      <MetricCalculator
+                        metricType="cac"
+                        onCalculate={(value) => setFormData({ ...formData, cac: value })}
+                        onTrack={(event, data) => analyticsRef.current.track(event, data)}
+                      />
+                    </div>
+
+                    <div>
+                      <Input
+                        type="number"
+                        label="Customer Lifetime Value (LTV)"
+                        value={formData.ltv || ''}
+                        onChange={e =>
+                          setFormData({
+                            ...formData,
+                            ltv: parseInt(e.target.value) || 0,
+                          })
+                        }
+                        placeholder="e.g., 1500"
+                        helper="Total profit from one customer over their lifetime"
+                      />
+
+                      <MetricCalculator
+                        metricType="ltv"
+                        revenue={formData.revenue}
+                        margin={formData.margin}
+                        onCalculate={(value) => setFormData({ ...formData, ltv: value })}
+                        onTrack={(event, data) => analyticsRef.current.track(event, data)}
+                      />
+                    </div>
                     <div className="bg-sage-50 border border-sage-200 rounded-lg p-4 text-sm text-warm-700">
                       <p className="font-medium mb-2">Quick math:</p>
                       <div className="text-xs space-y-1">
