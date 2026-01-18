@@ -1,7 +1,9 @@
 /**
  * Analytics tracking for user journey
- * For MVP, this stores data in localStorage
- * In production, send to Segment, Mixpanel, or custom API
+ * Integrates with:
+ * 1. Vercel Analytics - Real User Monitoring (RUM) - auto-tracked
+ * 2. Vercel KV - Server-side persistence of diagnosis results
+ * 3. localStorage - Client-side fallback for session data
  */
 
 export type EventType =
@@ -80,14 +82,35 @@ class Analytics {
   }
 
   /**
-   * Send to analytics service (Segment, Mixpanel, etc.)
+   * Send to Vercel Analytics and persist to KV
+   * Vercel Analytics automatically tracks page views and Web Vitals
    */
   private sendToAnalyticsService(event: AnalyticsEvent) {
-    // This is where you'd integrate with your analytics provider
-    // For now, just log it
-    if (typeof window !== 'undefined') {
-      // Example: send to your API endpoint
-      // fetch('/api/analytics', { method: 'POST', body: JSON.stringify(event) })
+    if (typeof window === 'undefined') return
+
+    // Persist important events (diagnosis results) to KV for analysis
+    if (event.type === 'diagnosis_viewed' || event.type === 'form_completed') {
+      this.persistToKV(event)
+    }
+  }
+
+  /**
+   * Persist event to Vercel KV (server-side)
+   */
+  private async persistToKV(event: AnalyticsEvent) {
+    try {
+      await fetch('/api/analytics', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          sessionId: event.sessionId,
+          type: event.type,
+          timestamp: event.timestamp,
+          data: event.data,
+        }),
+      })
+    } catch (err) {
+      console.warn('[Analytics] Failed to persist to KV', err)
     }
   }
 
@@ -140,6 +163,21 @@ class Analytics {
   clearSession() {
     this.events = []
     this.saveEvents()
+  }
+
+  /**
+   * Retrieve session data from KV (for returning users)
+   */
+  async getSessionDataFromKV() {
+    try {
+      const response = await fetch(`/api/analytics/session/${this.sessionId}`)
+      if (response.ok) {
+        return await response.json()
+      }
+    } catch (err) {
+      console.warn('[Analytics] Failed to retrieve session data from KV', err)
+    }
+    return null
   }
 }
 

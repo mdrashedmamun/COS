@@ -1,5 +1,6 @@
 import type { Metadata } from 'next'
 import { ReactNode } from 'react'
+import { Analytics } from '@vercel/analytics/react'
 import '../globals.css'
 
 export const metadata: Metadata = {
@@ -13,6 +14,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
     <html lang="en">
       <body className="bg-warm-50 text-warm-900 font-sans antialiased">
         {children}
+        <Analytics />
       </body>
     </html>
   )

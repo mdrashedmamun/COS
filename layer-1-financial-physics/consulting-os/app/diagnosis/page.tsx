@@ -6,6 +6,7 @@ import Link from 'next/link'
 import { Button } from '@/components/ui/Button'
 import { Card } from '@/components/ui/Card'
 import { ConstraintCard } from '@/components/ui/ConstraintCard'
+import { DiagnosisCardSkeleton } from '@/components/ui/SkeletonLoader'
 import { diagnoseConstraintWithAnalysis, DiagnosisInput, ConstraintType, EnhancedConstraintDiagnosis, getConstraintDetails } from '@/lib/utils/constraint-diagnosis'
 import { getAnalytics } from '@/lib/utils/analytics'
 
@@ -79,7 +80,12 @@ export default function DiagnosisPage() {
       <div className="min-h-screen bg-gradient-to-br from-sage-50 via-warm-50 to-warm-100 flex items-center justify-center px-4">
         <Card className="max-w-md text-center">
           <div className="p-8">
-            <p className="text-warm-600 mb-4">{error}</p>
+            <div className="text-4xl mb-4">⚠️</div>
+            <h2 className="text-lg font-semibold text-warm-900 mb-2">Oops!</h2>
+            <p className="text-warm-600 mb-6 text-sm">{error}</p>
+            <p className="text-xs text-warm-500 mb-6">
+              {error.includes('No input data') ? 'Your session may have expired.' : 'Please try again or contact support if this persists.'}
+            </p>
             <Link href="/calculator">
               <Button variant="primary">Start Over</Button>
             </Link>
@@ -91,13 +97,17 @@ export default function DiagnosisPage() {
 
   if (state === 'loading' || !diagnosis) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-sage-50 via-warm-50 to-warm-100 flex items-center justify-center px-4">
-        <div className="text-center space-y-6">
-          <div className="animate-pulse-gentle">
-            <h2 className="text-3xl font-serif font-semibold text-warm-900 mb-2">
+      <div className="min-h-screen bg-gradient-to-br from-sage-50 via-warm-50 to-warm-100">
+        <div className="max-w-3xl mx-auto px-4 py-12">
+          <div className="text-center mb-12">
+            <h1 className="text-3xl font-serif font-semibold text-warm-900 mb-2">
               Analyzing your business...
-            </h2>
-            <p className="text-warm-600">This takes just a moment</p>
+            </h1>
+            <p className="text-warm-600 text-sm">This takes just a moment</p>
+          </div>
+
+          <div className="mb-8">
+            <DiagnosisCardSkeleton />
           </div>
 
           <div className="flex justify-center gap-2">
@@ -106,10 +116,16 @@ export default function DiagnosisPage() {
                 key={i}
                 className="w-3 h-3 rounded-full bg-sage-400"
                 style={{
-                  animation: `pulse-gentle 1.5s ease-in-out ${i * 0.3}s infinite`,
+                  animation: `pulse 1.5s ease-in-out ${i * 0.3}s infinite`,
                 }}
               />
             ))}
+          </div>
+
+          <div className="mt-8 text-center text-xs text-warm-500">
+            <p>✓ Analyzing your metrics</p>
+            <p>✓ Identifying constraints</p>
+            <p>✓ Building your roadmap</p>
           </div>
         </div>
       </div>
