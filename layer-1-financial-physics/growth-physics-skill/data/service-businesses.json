@@ -1,0 +1,387 @@
+{
+  "caseStudies": [
+    {
+      "id": 1,
+      "name": "Garvey Disposal",
+      "vertical": "waste-management",
+      "description": "Garbage collection and waste management service serving both residential scatter customers and HOA contract accounts.",
+      "metrics": {
+        "annualRevenue": 642000,
+        "netProfit": -151000,
+        "netMargin": -0.23,
+        "cac": 67,
+        "ltv": 1300,
+        "ltv_cac_ratio": "19.4:1",
+        "closeRate": 0.33,
+        "monthlyCharge": 29.67,
+        "quarterlyCharge": 89
+      },
+      "customerSegments": [
+        {
+          "name": "Scatter (Residential)",
+          "marketShare": 0.50,
+          "cac": 51,
+          "ltv": 1000,
+          "ltv_cac_ratio": "21:1"
+        },
+        {
+          "name": "HOA (Commercial)",
+          "marketShare": 0.50,
+          "cac": 1200,
+          "ltv": 23000,
+          "ltv_cac_ratio": "18:1"
+        }
+      ],
+      "primaryConstraints": [
+        "Negative net margin (-23%)",
+        "Asset utilization - routes not efficient",
+        "Cash flow negative",
+        "Blended pricing competition"
+      ],
+      "growthRecommendations": [
+        "Fix unit economics through route efficiency and asset utilization",
+        "Focus on one avatar first (HOA for LTV, Scatter for quick cash flow)",
+        "Restructure offer for upfront cash >= CAC + first-month fulfillment",
+        "Build commission-only door-to-door sales team",
+        "Position on efficiency, not price, to avoid commoditized bidding"
+      ],
+      "formulasApplied": [
+        "Unit Economics: Revenue must exceed CAC + COGS",
+        "Route Efficiency: Utilization % drives margin recovery",
+        "LTV:CAC Ratio: HOA contracts support high CAC investment"
+      ],
+      "sourceTranscript": "100M Business - $1M Challenge #1: Garbage Collection"
+    },
+    {
+      "id": 2,
+      "name": "AC Styles",
+      "vertical": "personal-styling",
+      "description": "Personal styling and fashion consulting service with recurring monthly and quarterly retainer packages.",
+      "metrics": {
+        "annualRevenue": 309000,
+        "netProfit": 130000,
+        "netMargin": 0.42,
+        "cac": 600,
+        "ltv": 10000,
+        "ltv_cac_ratio": "16.7:1",
+        "closeRate": 0.50,
+        "appointmentShowRate": 1.0,
+        "leadToSaleConversion": 0.33,
+        "annualChurn": 0.025,
+        "currentClients": 40,
+        "onboardingPrice": 8500,
+        "monthlyRetainer": 2000,
+        "quarterlyRetainer": 4500
+      },
+      "primaryConstraints": [
+        "Lead volume is the bottleneck (not economics)",
+        "Conversion issue: high clicks but low sales ratio (1,800 clicks = 8 sales)",
+        "Need better lead magnet to improve opt-in rate"
+      ],
+      "growthRecommendations": [
+        "Validate and scale demand through better lead magnet (target 30%+ opt-in)",
+        "Maintain core offer; economics are already healthy",
+        "Focus on avatar definition and trigger moments (life events: new job, divorce, etc.)",
+        "Implement lead-scoring to focus on high-LTV buyers",
+        "Double down on best-performing channels (audit source mix)"
+      ],
+      "formulasApplied": [
+        "LTV:CAC Ratio: 16.7:1 indicates economics are solid",
+        "Churn Analysis: 2.5% annual churn is excellent (1 lost from 40)",
+        "Offer Ladder: Onboarding + recurring revenue model works well"
+      ],
+      "sourceTranscript": "100M Business - $1M Challenge #2: Personal Styling"
+    },
+    {
+      "id": 3,
+      "name": "Kyo Chiropractic Chain",
+      "vertical": "health-fitness",
+      "description": "Multi-location chiropractic practice with 6 brick-and-mortar locations, insurance-based billing, and package pricing.",
+      "metrics": {
+        "annualRevenue": 5200000,
+        "netMargin": 0.23,
+        "locations": 6,
+        "revenuePerLocation": 866667,
+        "leadVolume": 35,
+        "leadVolumeFrequency": "per-month",
+        "showRate": 0.80,
+        "closeRate": 0.71,
+        "cac": 700,
+        "ltv": 3400,
+        "ltv_cac_ratio": "4.9:1",
+        "packageRange": [2400, 3600],
+        "insuranceRevenueMix": 0.75
+      },
+      "primaryConstraints": [
+        "Lead flow is primary bottleneck",
+        "Sales infrastructure around insurance verification needed",
+        "Close rate significantly above average (71% vs healthy 30-40%)",
+        "Pricing may be undervalued given high close rates"
+      ],
+      "growthRecommendations": [
+        "Scale high-intent channels first: Google Ads and Local SEO",
+        "Test higher price points given 71% close rate",
+        "Reduce lead leakage in discovery process",
+        "Optimize location-specific performance",
+        "Consider expanding to new locations with proven model"
+      ],
+      "formulasApplied": [
+        "Google ROAS: $1 spend = $24 return",
+        "Location Scaling: Unit economics support multi-location expansion",
+        "Pricing Optimization: 71% close rate suggests room for price increase"
+      ],
+      "sourceTranscript": "100M Business - $1M Challenge #3: Chiropractic Chain"
+    },
+    {
+      "id": 4,
+      "name": "Trophy Outlet",
+      "vertical": "hybrid-retail-service",
+      "description": "Hybrid business combining product sales (trophies, awards) with engraving and customization services.",
+      "metrics": {
+        "annualRevenue": 1720000,
+        "netMargin": 0.064,
+        "netProfit": 110080,
+        "modelType": "hybrid-product-service"
+      },
+      "primaryConstraints": [
+        "Low margin (6.4%) typical for retail-product mix",
+        "Service component underutilized",
+        "Limited recurring revenue"
+      ],
+      "growthRecommendations": [
+        "Identify and expand high-margin service components",
+        "Shift to B2B corporate award programs (higher LTV)",
+        "Build recurring subscription model for corporate clients",
+        "Reduce retail transaction volume, increase average order value"
+      ],
+      "formulasApplied": [
+        "Product vs Service Mix: Shift mix toward higher-margin services"
+      ],
+      "sourceTranscript": "100M Business - $1M Challenge #4: Trophy Outlet"
+    },
+    {
+      "id": 5,
+      "name": "Unfiltered Hospitality",
+      "vertical": "hospitality-beverage",
+      "description": "Bar and beverage consulting service helping hospitality venues optimize operations, menu, and revenue.",
+      "metrics": {
+        "annualRevenue": 1100000,
+        "netMargin": 0.113,
+        "netProfit": 124300,
+        "serviceType": "consulting"
+      },
+      "primaryConstraints": [
+        "Consulting service model (project-based vs recurring)",
+        "Client concentration risk",
+        "Seasonal hospitality volatility"
+      ],
+      "growthRecommendations": [
+        "Transition to recurring retainer model vs project fees",
+        "Build systematic implementation playbook to reduce delivery time",
+        "Create partnership model with larger hospitality groups",
+        "Develop 'done-for-you' package for highest-margin clients"
+      ],
+      "formulasApplied": [
+        "Consulting to Recurring: Convert project revenue to retainer",
+        "Implementation Leverage: Scale delivery through systems and team"
+      ],
+      "sourceTranscript": "100M Business - $1M Challenge #5: Beverage Consulting"
+    },
+    {
+      "id": 6,
+      "name": "Legal Services for Musicians",
+      "vertical": "professional-services",
+      "description": "Specialized legal services focused on music industry clients, contracts, rights, and business formation.",
+      "metrics": {
+        "annualRevenue": 300000,
+        "netMargin": -0.33,
+        "netProfit": -99000,
+        "modelType": "professional-services"
+      },
+      "primaryConstraints": [
+        "Negative margin (-33%)",
+        "Business model not yet profitable",
+        "Likely high cost of client acquisition for niche vertical"
+      ],
+      "growthRecommendations": [
+        "Restructure pricing to support margin target (30%+)",
+        "Focus on highest-value services (contract negotiation, rights management)",
+        "Build productized offerings: music contract templates, rights bundles",
+        "Create recurring legal retainer for active musicians and labels",
+        "Reduce delivery cost through leverage (templates, systems)"
+      ],
+      "formulasApplied": [
+        "Service to Product: Convert hourly/project work to productized packages",
+        "Pricing Restructure: Unit economics must improve before scaling"
+      ],
+      "sourceTranscript": "100M Business - $1M Challenge #6: Music Legal Services"
+    },
+    {
+      "id": 7,
+      "name": "Amy Lash and Beauty",
+      "vertical": "beauty-services",
+      "description": "Eyelash extensions and beauty services chain with multiple locations and recurring client base.",
+      "metrics": {
+        "annualRevenue": 2300000,
+        "netMargin": 0.28,
+        "netProfit": 644000,
+        "serviceType": "recurring-beauty"
+      },
+      "primaryConstraints": [
+        "Labor intensity and technician scaling",
+        "Quality consistency across locations",
+        "Client retention and repeat booking"
+      ],
+      "growthRecommendations": [
+        "Systematize technician training and quality standards",
+        "Build subscription model for regular lash maintenance",
+        "Expand to adjacent beauty services (nails, brows)",
+        "Implement retention marketing for lash refills",
+        "Develop franchising model for expansion"
+      ],
+      "formulasApplied": [
+        "Recurring Revenue: Subscription lash packages",
+        "Location Scaling: Proven model supports chain expansion",
+        "Service Upsells: Leverage existing client base for add-on services"
+      ],
+      "sourceTranscript": "100M Business - $1M Challenge #7: Eyelash Chain"
+    },
+    {
+      "id": 8,
+      "name": "Basil & Co Thai Restaurant",
+      "vertical": "food-service",
+      "description": "Full-service Thai restaurant with dine-in, takeout, and potential delivery channels.",
+      "metrics": {
+        "annualRevenue": 3500000,
+        "netMargin": 0.19,
+        "netProfit": 665000,
+        "serviceType": "food-service"
+      },
+      "primaryConstraints": [
+        "Typical restaurant margins (18-22%)",
+        "Labor cost volatility",
+        "Commodity food cost fluctuation",
+        "Seasonal customer traffic variation"
+      ],
+      "growthRecommendations": [
+        "Systematize operations to reduce labor % of revenue",
+        "Develop catering and corporate meal programs (higher margin)",
+        "Build ghost kitchen operation for delivery-only channels",
+        "Create meal subscription or loyalty program",
+        "Test additional locations in adjacent markets"
+      ],
+      "formulasApplied": [
+        "Channel Mix Optimization: Prioritize high-margin channels (catering vs delivery)",
+        "Operational Leverage: Systems reduce labor % as volume increases",
+        "Location Replication: Proven model supports multi-unit expansion"
+      ],
+      "sourceTranscript": "100M Business - $1M Challenge #8: Thai Restaurant"
+    }
+  ],
+  "verticals": [
+    {
+      "id": "waste-management",
+      "name": "Waste Management",
+      "category": "featured",
+      "caseStudies": [1],
+      "description": "Trash collection, recycling, junk removal services with both residential and commercial avatars.",
+      "characteristics": [
+        "Capital intensive (trucks, equipment)",
+        "Route-based delivery model",
+        "Mixed recurring and project revenue",
+        "Strong upsell opportunities (premium services)"
+      ]
+    },
+    {
+      "id": "personal-styling",
+      "name": "Personal Styling",
+      "category": "featured",
+      "caseStudies": [2],
+      "description": "Fashion consulting, wardrobe management, personal shopping, and styling retainers.",
+      "characteristics": [
+        "High LTV from recurring retainers",
+        "Low churn when service is excellent",
+        "Trigger-based acquisition (life events)",
+        "Scalable through team model"
+      ]
+    },
+    {
+      "id": "health-fitness",
+      "name": "Health & Fitness Services",
+      "category": "featured",
+      "caseStudies": [3],
+      "description": "Chiropractic, personal training, wellness coaching, and physical therapy services.",
+      "characteristics": [
+        "Multi-location scalability",
+        "Insurance-based or cash pay models",
+        "High close rates when positioned correctly",
+        "Recurring appointment model"
+      ]
+    },
+    {
+      "id": "hybrid-retail-service",
+      "name": "Hybrid Retail + Service",
+      "category": "featured",
+      "caseStudies": [4],
+      "description": "Businesses combining product sales with service delivery (awards + engraving, products + customization).",
+      "characteristics": [
+        "Typically lower margins",
+        "Opportunity to shift to service-heavy model",
+        "B2B corporate programs higher value",
+        "Customization commands premium pricing"
+      ]
+    },
+    {
+      "id": "hospitality-beverage",
+      "name": "Hospitality & Beverage",
+      "category": "featured",
+      "caseStudies": [5],
+      "description": "Bar consulting, restaurant operations, beverage programs, and hospitality optimization.",
+      "characteristics": [
+        "Project or retainer consulting models",
+        "High implementation complexity",
+        "Seasonal revenue cycles",
+        "Strong upsell to done-for-you services"
+      ]
+    },
+    {
+      "id": "professional-services",
+      "name": "Professional Services",
+      "category": "featured",
+      "caseStudies": [6],
+      "description": "Legal, accounting, consulting, and advisory services for specialized niches.",
+      "characteristics": [
+        "Challenge: Low margins without productization",
+        "Opportunity: Recurring retainers vs hourly billing",
+        "Niche targeting enables premium pricing",
+        "Productization and templates improve leverage"
+      ]
+    },
+    {
+      "id": "beauty-services",
+      "name": "Beauty & Personal Care",
+      "category": "featured",
+      "caseStudies": [7],
+      "description": "Salons, lash extensions, aesthetics, spas, and beauty treatment services.",
+      "characteristics": [
+        "High recurring revenue potential",
+        "Labor-intensive and scaling challenge",
+        "Strong client loyalty when quality is consistent",
+        "Multiple service upsell opportunities"
+      ]
+    },
+    {
+      "id": "food-service",
+      "name": "Food Service & Restaurants",
+      "category": "featured",
+      "caseStudies": [8],
+      "description": "Full-service restaurants, quick service, catering, and food delivery services.",
+      "characteristics": [
+        "Thin margins typical (18-22%)",
+        "Commodity cost exposure",
+        "Multi-channel opportunity (dine-in, delivery, catering)",
+        "Systemization critical for profitability"
+      ]
+    }
+  ]
+}
