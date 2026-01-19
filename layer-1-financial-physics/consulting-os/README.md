@@ -40,11 +40,46 @@ npm start
 
 ---
 
+## 🚀 Production Deployment
+
+For **Phase A+E** (Metric Calculators + User Authentication):
+
+**Quick Start (30 min):**
+```bash
+# 1. See QUICKSTART.md for rapid setup
+cat QUICKSTART.md
+
+# 2. Run setup script (creates .env.local)
+bash scripts/setup-local.sh
+
+# 3. Deploy to Vercel
+git push && vercel deploy --prod
+```
+
+**Full Setup:**
+See `SETUP-PRODUCTION.md` for detailed instructions on:
+- Creating Supabase project
+- Running database schema
+- Configuring environment variables
+- Testing locally
+- Deploying to production
+- Monitoring and maintenance
+
+**Features in Phase A+E:**
+- ✅ Metric Calculators (CAC, LTV, Margin)
+- ✅ Supabase Authentication (magic link emails)
+- ✅ User Accounts & Diagnosis History
+- ✅ Dashboard to view past diagnoses
+- ✅ Row-level security for user data
+- ✅ Zero-cost setup (free tier)
+
+---
+
 ## 📋 What's Included
 
 This is **Path B MVP** - a complete implementation of the core user journey:
 
-### Core Features
+### Core Features (Path B MVP)
 ✅ **5-Step Conversational Calculator** - Users input their business metrics in a warm, engaging flow
 ✅ **Intelligent Constraint Diagnosis** - Rules-based algorithm diagnoses 7 constraint types
 ✅ **Animated Diagnosis Reveal** - Beautiful reveal animation with personalized explanation
@@ -53,6 +88,15 @@ This is **Path B MVP** - a complete implementation of the core user journey:
 ✅ **Analytics Tracking** - Complete user journey tracking for retention analysis
 ✅ **Mobile Responsive** - Fully responsive design for all devices
 ✅ **Warm Design System** - Custom Tailwind config with empathetic aesthetic
+
+### Phase A+E Features (NEW)
+✅ **Metric Calculators** - Helper tools to calculate CAC, LTV, and Margin
+✅ **User Authentication** - Magic link email sign-in (no passwords)
+✅ **User Accounts** - Persistent accounts with Supabase
+✅ **Diagnosis History** - Save and view past diagnoses on dashboard
+✅ **Positioning Context** - Optional customer positioning (trigger, type, channel)
+✅ **Row-Level Security** - Users can only access their own data
+✅ **Analytics Events** - Track calculator usage and diagnosis saves
 
 ### 7 Constraint Types Supported
 1. **Demand** - Can't get enough customers
