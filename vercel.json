@@ -1,0 +1,6 @@
+{
+  "buildCommand": "cd layer-1-financial-physics/consulting-os && npm run build",
+  "installCommand": "cd layer-1-financial-physics/consulting-os && npm install",
+  "devCommand": "cd layer-1-financial-physics/consulting-os && npm run dev",
+  "rootDirectory": "layer-1-financial-physics/consulting-os"
+}

@@ -11,3 +11,5 @@ build/
 *.swp
 *.swo
 *~
+.vercel
+.env*.local
