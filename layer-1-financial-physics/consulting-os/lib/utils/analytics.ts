@@ -11,10 +11,13 @@ export type EventType =
   | 'form_step_completed'
   | 'form_completed'
   | 'diagnosis_viewed'
+  | 'diagnosis_saved'
   | 'playbook_viewed'
   | 'playbook_downloaded'
   | 'playbook_shared'
   | 'page_visited'
+  | 'calculator_opened'
+  | 'calculator_applied'
 
 export interface AnalyticsEvent {
   type: EventType

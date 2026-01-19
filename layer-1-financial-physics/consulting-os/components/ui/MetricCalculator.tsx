@@ -3,13 +3,14 @@
 import { useState } from 'react'
 import { Button } from './Button'
 import { Input } from './Input'
+import type { EventType } from '@/lib/utils/analytics'
 
 type MetricType = 'margin' | 'cac' | 'ltv'
 
 interface MetricCalculatorProps {
   metricType: MetricType
   onCalculate: (value: number) => void
-  onTrack?: (event: string, data: any) => void
+  onTrack?: (event: EventType, data: any) => void
   revenue?: number      // For LTV/Margin
   margin?: number       // For LTV
 }
@@ -24,7 +25,7 @@ export function MetricCalculator({
   const [isExpanded, setIsExpanded] = useState(false)
   const [calculatedValue, setCalculatedValue] = useState<number | null>(null)
 
-  const track = (event: string, data?: any) => {
+  const track = (event: EventType, data?: any) => {
     if (onTrack) {
       onTrack(event, { metric: metricType, ...data })
     }
